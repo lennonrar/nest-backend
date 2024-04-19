@@ -1,0 +1,31 @@
+version: '1.0'
+
+services:
+    nest-backend:
+      container_name: nest-backend
+      build:
+        context: .
+        dockerfile: Dockerfile
+      ports:
+      - '3000:3000'
+      volumes:
+        - ..:/project:cached
+        - logs:/var/log
+        - ~/.ssh/id_ed25519:/root/.ssh/id_ed25519
+        - ~/.ssh/id_ed25519.pub:/root/.ssh/id_ed25519.pub
+      env_file:
+        - .env
+      restart:
+        unless-stopped
+      command:
+        sleep infinity
+      networks:
+        - developer
+volumes:
+  database-service:
+  logs:
+
+networks:
+  developer:
+    external: true
+
